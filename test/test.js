@@ -83,6 +83,12 @@ requirejs(['../css', '../normalize'], function(css, normalize) {
     normalize.absoluteURI('/my/file.less', 'http://localhost:8000/'),
     '/my/file.less'
   );
+  assert(
+    'root url test',
+    normalize('src: url("../fonts/font.eot") format("embedded-opentype"), url("../fonts/font.woff") format("woff");', '/base/', '/', true),
+    'src: url("/fonts/font.eot") format("embedded-opentype"), url("/fonts/font.woff") format("woff");'
+  );
+
 
   console.log('\n--- Require CSS Tests Complete: ' + passed + ' passed, ' + failed + ' failed. ---\n');
 });

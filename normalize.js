@@ -112,7 +112,7 @@ define(function() {
     return out.substr(0, out.length - 1);
   };
   
-  var normalizeCSS = function(source, fromBase, toBase) {
+  var normalizeCSS = function(source, fromBase, toBase, rootUrls) {
 
     fromBase = removeDoubleSlashes(fromBase);
     toBase = removeDoubleSlashes(toBase);
@@ -124,6 +124,11 @@ define(function() {
       url = result[3] || result[2] || result[5] || result[6] || result[4];
       var newUrl;
       newUrl = convertURIBase(url, fromBase, toBase);
+      if (rootUrls) {
+        if (newUrl.indexOf("/") !== 0 && newUrl.indexOf(":") === -1) {
+          newUrl =  "/" + newUrl;
+        }
+      }
       var quoteLen = result[5] || result[6] ? 1 : 0;
       source = source.substr(0, urlRegEx.lastIndex - url.length - quoteLen - 1) + newUrl + source.substr(urlRegEx.lastIndex - quoteLen - 1);
       urlRegEx.lastIndex = urlRegEx.lastIndex + (newUrl.length - url.length);

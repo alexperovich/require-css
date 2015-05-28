@@ -112,10 +112,14 @@ define(['require', './normalize'], function(req, normalize) {
   var writeCSSForLayer = true;
   var layerBuffer = [];
   var cssBuffer = {};
+  var rootUrls = false;
 
   cssAPI.load = function(name, req, load, _config) {
     //store config
     config = config || _config;
+    if (config["require-css"]) {
+      rootUrls = config["require-css"].rootUrls || false;
+    }
 
     if (!siteRoot) {
       siteRoot = path.resolve(config.dir || path.dirname(config.out), config.siteRoot || '.') + '/';
@@ -144,7 +148,7 @@ define(['require', './normalize'], function(req, normalize) {
     }
 
     //add to the buffer
-    cssBuffer[name] = normalize(loadFile(fileUrl), fileSiteUrl, siteRoot);
+    cssBuffer[name] = normalize(loadFile(fileUrl), fileSiteUrl, siteRoot, rootUrls);
 
     load();
   }
